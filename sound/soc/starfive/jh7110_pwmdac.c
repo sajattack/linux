@@ -213,7 +213,7 @@ static void jh7110_pwmdac_stop(struct jh7110_pwmdac_dev *dev)
 static int jh7110_pwmdac_startup(struct snd_pcm_substream *substream,
 				 struct snd_soc_dai *dai)
 {
-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
 	struct snd_soc_dai_link *dai_link = rtd->dai_link;
 
 	dai_link->trigger_stop = SND_SOC_TRIGGER_ORDER_LDC;
@@ -357,7 +357,6 @@ static int jh7110_pwmdac_dai_probe(struct snd_soc_dai *dai)
 }
 
 static const struct snd_soc_dai_ops jh7110_pwmdac_dai_ops = {
-	.probe		= jh7110_pwmdac_dai_probe,
 	.startup	= jh7110_pwmdac_startup,
 	.hw_params	= jh7110_pwmdac_hw_params,
 	.trigger	= jh7110_pwmdac_trigger,
@@ -370,6 +369,7 @@ static const struct snd_soc_component_driver jh7110_pwmdac_component = {
 static struct snd_soc_dai_driver jh7110_pwmdac_dai = {
 	.name		= "jh7110-pwmdac",
 	.id		= 0,
+	.probe		= jh7110_pwmdac_dai_probe,
 	.playback = {
 		.channels_min = 1,
 		.channels_max = 2,
@@ -498,9 +498,10 @@ err_pm_disable:
 	return ret;
 }
 
-static void jh7110_pwmdac_remove(struct platform_device *pdev)
+static int jh7110_pwmdac_remove(struct platform_device *pdev)
 {
 	pm_runtime_disable(&pdev->dev);
+	return 0;
 }
 
 static const struct of_device_id jh7110_pwmdac_of_match[] = {
@@ -516,7 +517,7 @@ static struct platform_driver jh7110_pwmdac_driver = {
 		.pm = pm_ptr(&jh7110_pwmdac_pm_ops),
 	},
 	.probe		= jh7110_pwmdac_probe,
-	.remove_new	= jh7110_pwmdac_remove,
+	.remove		= jh7110_pwmdac_remove,
 };
 module_platform_driver(jh7110_pwmdac_driver);
 
