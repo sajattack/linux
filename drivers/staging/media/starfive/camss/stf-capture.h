@@ -84,3 +84,4 @@ int stf_capture_register(struct stfcamss *stfcamss,
 void stf_capture_unregister(struct stfcamss *stfcamss);
 
 #endif
+
