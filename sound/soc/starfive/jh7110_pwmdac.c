@@ -213,7 +213,7 @@ static void jh7110_pwmdac_stop(struct jh7110_pwmdac_dev *dev)
 static int jh7110_pwmdac_startup(struct snd_pcm_substream *substream,
 				 struct snd_soc_dai *dai)
 {
-	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
 	struct snd_soc_dai_link *dai_link = rtd->dai_link;
 
 	dai_link->trigger_stop = SND_SOC_TRIGGER_ORDER_LDC;
@@ -360,6 +360,7 @@ static const struct snd_soc_dai_ops jh7110_pwmdac_dai_ops = {
 	.startup	= jh7110_pwmdac_startup,
 	.hw_params	= jh7110_pwmdac_hw_params,
 	.trigger	= jh7110_pwmdac_trigger,
+	.probe		= jh7110_pwmdac_dai_probe,
 };
 
 static const struct snd_soc_component_driver jh7110_pwmdac_component = {
@@ -369,7 +370,6 @@ static const struct snd_soc_component_driver jh7110_pwmdac_component = {
 static struct snd_soc_dai_driver jh7110_pwmdac_dai = {
 	.name		= "jh7110-pwmdac",
 	.id		= 0,
-	.probe		= jh7110_pwmdac_dai_probe,
 	.playback = {
 		.channels_min = 1,
 		.channels_max = 2,
