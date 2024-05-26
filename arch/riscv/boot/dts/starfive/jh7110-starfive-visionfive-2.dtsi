@@ -786,6 +786,8 @@
 			bias-disable;
 			drive-strength = <2>;
 			input-disable;
+		};
+	};
 	pcie0_pins: pcie0-0 {
 		clkreq-pins {
 			pinmux = <GPIOMUX(27, GPOUT_LOW,
@@ -962,7 +964,6 @@
 		};
 	};
 };
-
 &tdm {
 	pinctrl-names = "default";
 	pinctrl-0 = <&tdm_pins>;
