@@ -843,8 +843,6 @@ static void update_cursor_plane(struct vs_dc *dc, struct vs_plane *plane,
 	cursor.address = plane_state->dma_addr[0];
 	cursor.x = state->crtc_x;
 	cursor.y = state->crtc_y;
-	cursor.hot_x = drm_fb->hot_x;
-	cursor.hot_y = drm_fb->hot_y;
 	cursor.display_id = to_vs_display_id(dc, state->crtc);
 	update_cursor_size(state, &cursor);
 	cursor.enable = true;
